@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>SIMON TECH BOT</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: #0b0b0b;
+      color: white;
+    }
+
+    .container {
+      width: 90%;
+      max-width: 420px;
+      padding: 25px;
+      border-radius: 18px;
+      background: #151515;
+      box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 8px;
+    }
+
+    p {
+      text-align: center;
+      color: #aaa;
+    }
+
+    input {
+      width: 100%;
+      padding: 14px;
+      margin-top: 20px;
+      border: none;
+      border-radius: 10px;
+      background: #242424;
+      color: white;
+      outline: none;
+    }
+
+    button {
+      width: 100%;
+      margin-top: 15px;
+      padding: 14px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: bold;
+      background: white;
+      color: black;
+    }
+
+    button:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .result {
+      display: none;
+      margin-top: 20px;
+      padding: 18px;
+      text-align: center;
+      border-radius: 10px;
+      background: #202020;
+    }
+
+    .code {
+      margin-top: 10px;
+      font-size: 24px;
+      font-weight: bold;
+      letter-spacing: 3px;
+    }
+
+    .status {
+      margin-top: 15px;
+      font-size: 14px;
+      color: #aaa;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container">
+
+    <h1>SIMON TECH BOT</h1>
+
+    <p>WhatsApp Device Linking</p>
+
+    <input
+      id="number"
+      type="tel"
+      placeholder="2348012345678"
+      autocomplete="off"
+    >
+
+    <button id="pairButton">
+      LINK WHATSAPP
+    </button>
+
+    <div id="result" class="result">
+
+      <div>PAIRING CODE</div>
+
+      <div
+        id="code"
+        class="code"
+      ></div>
+
+      <div class="status">
+        Open WhatsApp → Linked Devices →
+        Link a Device → Link with phone number
+      </div>
+
+    </div>
+
+  </div>
+
+<script>
+  const numberInput =
+    document.getElementById("number");
+
+  const button =
+    document.getElementById("pairButton");
+
+  const result =
+    document.getElementById("result");
+
+  const codeElement =
+    document.getElementById("code");
+
+  button.addEventListener("click", async () => {
+
+    const number =
+      numberInput.value.trim();
+
+    if (!number) {
+      alert("Enter your WhatsApp number.");
+      return;
+    }
+
+    button.disabled = true;
+    button.textContent = "GENERATING...";
+
+    result.style.display = "none";
+
+    try {
+
+      const response =
+        await fetch("/api/pair", {
+          method: "POST",
+
+          headers: {
+            "Content-Type": "application/json"
+          },
+
+          body: JSON.stringify({
+            number
+          })
+        });
+
+      const data =
+        await response.json();
+
+      if (!data.success) {
+        throw new Error(
+          data.error ||
+          "Pairing failed."
+        );
+      }
+
+      codeElement.textContent =
+        data.code;
+
+      result.style.display = "block";
+
+    } catch (error) {
+
+      alert(error.message);
+
+    } finally {
+
+      button.disabled = false;
+      button.textContent = "LINK WHATSAPP";
+
+    }
+  });
+</script>
+
+</body>
+      </html>
