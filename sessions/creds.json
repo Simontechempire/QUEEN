@@ -1,0 +1,6 @@
+{
+  "noiseKey": "your private key",
+  "signedIdentityKey": "your identity",
+  "registrationId": 12345,
+  "advSecretKey": "secret"
+}
