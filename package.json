@@ -1,0 +1,19 @@
+{
+  "name": "simon-tech-whatsapp-bot",
+  "version": "1.0.0",
+  "description": "Simon Tech WhatsApp MD Bot",
+  "type": "module",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "@whiskeysockets/baileys": "latest",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "pino": "^9.6.0"
+  }
+}
